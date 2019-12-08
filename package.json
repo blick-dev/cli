@@ -1,6 +1,6 @@
 {
   "name": "@blick.dev/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "cli for blick.dev multi-window responsive design tool for web developers",
   "main": "dist/index.js",
   "scripts": {
