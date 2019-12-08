@@ -1,11 +1,26 @@
 #!/usr/bin/env node
-import { Default, Command, App } from '@garygrossgarten/cli';
+import { Default, Command, App, Param } from '@garygrossgarten/cli';
+const open = require('open');
 @App()
 export class BlickCLI {
   @Default()
   @Command()
   default() {
     console.log('hey there from blick');
+    // maybe open help here or blick.dev webapp
+  }
+
+  @Command()
+  open(
+    @Param({
+      git: true,
+      short: 'u',
+      description: 'open url in blick.dev webapp'
+    })
+    url: string
+  ) {
+    if (url) return open(`https://blick.dev?url=${url}`);
+    return open(`https://blick.dev`);
   }
 
   // @Command()
