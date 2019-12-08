@@ -1,0 +1,31 @@
+{
+  "name": "@blick.dev/cli",
+  "version": "0.1.0",
+  "description": "cli for blick.dev multi-window responsive design tool for web developers",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "bin": {
+    "blick": "dist/index.js"
+  },
+  "author": "blick.dev",
+  "license": "MIT",
+  "dependencies": {
+    "@garygrossgarten/cli": "~0.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "~24.0.18",
+    "@types/minimist": "~1.2.0",
+    "@types/node": "~12.7.3",
+    "jest": "~24.9.0",
+    "ts-jest": "~24.1.0",
+    "typescript": "~3.6.3",
+    "prettier": "~1.19.1"
+  },
+  "publisher": "blick.dev",
+  "files": [
+    "dist"
+  ]
+}
