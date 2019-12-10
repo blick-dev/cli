@@ -22,13 +22,13 @@ npm i -D @blick.dev/cli
 
 ## Usage
 
-### Open the blick.dev electron app:
+### Open the blick.dev electron app
 
 ```bash
 blick open [URL]
 ```
 
-### Open the blick.dev web app:
+### Open the blick.dev web app
 
 ```bash
 blick browser [URL]
