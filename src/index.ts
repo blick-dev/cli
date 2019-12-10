@@ -1,17 +1,60 @@
 #!/usr/bin/env node
-import { Default, Command, App, Param } from '@garygrossgarten/cli';
-const open = require('open');
+import {
+  Default,
+  Command,
+  App,
+  Param,
+  exec,
+  color,
+  Colors
+} from '@garygrossgarten/cli';
+import open = require('open');
 @App()
 export class BlickCLI {
   @Default()
   @Command()
   default() {
-    console.log('hey there from blick');
+    console.log('hey there from blick.');
     // maybe open help here or blick.dev webapp
+    console.log(
+      `Use ${color(
+        Colors.Yellow,
+        'blick open <$URL>'
+      )} to open the electron app.`
+    );
+    console.log(
+      `Use ${color(Colors.Yellow, 'blick browser <$URL>')} to open the web app.`
+    );
   }
 
   @Command()
-  open(
+  async open(
+    @Param({
+      git: true,
+      short: 'u',
+      description: 'open url in blick.dev electron app'
+    })
+    url: string
+  ) {
+    if (process.mainModule) {
+      try {
+        const path = process.mainModule.filename.split('/');
+        const base = path.slice(0, path.length - 2).join('/');
+        if (url)
+          return await exec(
+            `${base}/node_modules/.bin/electron ${base}/node_modules/@blick.dev/app/dist/index.js --url ${url}`
+          );
+        return await exec(
+          `${base}/node_modules/.bin/electron ${base}/node_modules/@blick.dev/app/dist/index.js`
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
+  @Command()
+  async browser(
     @Param({
       git: true,
       short: 'u',
@@ -19,44 +62,11 @@ export class BlickCLI {
     })
     url: string
   ) {
-    if (url) return open(`https://blick.dev?url=${url}`);
-    return open(`https://blick.dev`);
+    try {
+      if (url) return await open(`https://blick.dev?url=${url}`);
+      return await open(`https://blick.dev`);
+    } catch (err) {
+      console.error(err);
+    }
   }
-
-  // @Command()
-  // async test() {
-  //   this.oof("call method oof");
-  //   await exec('node . oof --param "exec method oof"');
-  //   this.multiple("call", "method", "multiple");
-  //   await exec("node . multiple --a exec --b method --c multiple");
-  //   this.git("call method git");
-  //   await exec('node . git "exec method git"');
-  //   this.combined("call method", "combined");
-  //   await exec('node . combined "exec" --param "method combined"');
-  //   this.combinedReverse("call method", "combined reverse");
-  //   await exec('node . combinedReverse --param "exec" "method combined"');
-  // }
-
-  // @Command()
-  // multiple(@Param() a: string, @Param() b: string, @Param() c: string) {
-  //   console.log(a, b, c);
-  // }
-
-  // @Command()
-  // git(@Param({ git: true }) gitStyle: string) {
-  //   console.log(gitStyle);
-  // }
-
-  // @Command()
-  // combined(@Param({ git: true }) gitStyle: string, @Param() param: string) {
-  //   console.log(gitStyle, param);
-  // }
-
-  // @Command()
-  // combinedReverse(
-  //   @Param() param: string,
-  //   @Param({ git: true }) gitStyle: string
-  // ) {
-  //   console.log(param, gitStyle);
-  // }
 }
