@@ -38,8 +38,11 @@ export class BlickCLI {
   ) {
     if (process.mainModule) {
       try {
+        const isInstalledGlobally = require('is-installed-globally');
         const path = process.mainModule.filename.split('/');
-        const base = path.slice(0, path.length - 2).join('/');
+        let base = isInstalledGlobally
+          ? path.slice(0, path.length - 2).join('/')
+          : path.slice(0, path.length - 5).join('/');
         if (url)
           return await exec(
             `${base}/node_modules/.bin/electron ${base}/node_modules/@blick.dev/app/dist/index.js --url ${url}`
